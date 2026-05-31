@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Lhia 💝</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: linear-gradient(180deg, #fff5f7 0%, #ffeef1 30%, #ffe4e8 60%, #ffdde3 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .daisy {
+            position: fixed;
+            top: -10%;
+            font-size: 24px;
+            opacity: 0.5;
+            animation: fall linear infinite;
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+
+        .heart {
+            position: fixed;
+            color: #ff8fa3;
+            font-size: 20px;
+            animation: floatUp 4s ease-in infinite;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 20;
+            user-select: none;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(0.5); opacity: 0; }
+            20% { opacity: 1; transform: translateY(-20px) scale(1.2); }
+            100% { transform: translateY(-150px) scale(1); opacity: 0; }
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+            padding: 20px;
+        }
+
+        .tap-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 245, 247, 0.92);
+            backdrop-filter: blur(8px);
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .tap-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .tap-text {
+            font-family: 'Brush Script MT', 'Segoe Script', cursive;
+            font-size: 2.2rem;
+            color: #ff9a9e;
+            text-align: center;
+            animation: pulseText 2s infinite;
+            margin-bottom: 15px;
+            padding: 0 20px;
+        }
+
+        .tap-subtext {
+            font-family: 'Brush Script MT', 'Segoe Script', cursive;
+            font-size: 1.1rem;
+            color: #8b6b7b;
+            text-align: center;
+            opacity: 0.8;
+            padding: 0 30px;
+            margin-bottom: 20px;
+        }
+
+        .tap-icon {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            animation: bounceIcon 2s infinite;
+        }
+
+        .play-hint {
+            font-family: 'Brush Script MT', 'Segoe Script', cursive;
+            font-size: 1rem;
+            color: #ff9a9e;
+            margin-top: 10px;
+            opacity: 0.7;
+        }
+
+        @keyframes pulseText {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+
+        @keyframes bounceIcon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .music-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 50;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .music-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 182, 193, 0.6);
+            cursor: pointer;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 182, 193, 0.3);
+            animation: musicPulse 2s infinite;
+        }
+
+        .music-btn:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 6px 20px rgba(255, 182, 193, 0.5);
+        }
+
+        .music-btn.muted {
+            animation: none;
+            opacity: 0.6;
+        }
+
+        @keyframes musicPulse {
+            0%, 100% { box-shadow: 0 4px 15px rgba(255, 182, 193, 0.3); }
+            50% { box-shadow: 0 4px 25px rgba(255, 182, 193, 0.6); }
+        }
+
+        .music-label {
+            font-family: 'Brush Script MT', 'Segoe Script', cursive;
+            font-size: 0.75rem;
+            color: #ff9a9e;
+            background: rgba(255,255,255,0.8);
+            padding: 3px 10px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,182,193,0.4);
+        }
+
+        .intro-view {
+            text-align: center;
+            transition: opacity 0.7s ease;
+        }
+
+        .intro-title {
+            font-size: 3.5rem;
+            color: #5a4a5a;
+            margin-bottom: 10px;
+            font-weight: 400;
+            letter-spacing: 2px;
+        }
+
+        .intro-subtitle {
+            font-family: 'Brush Script MT', 'Segoe Script', cursive;
+            font-size: 1.5rem;
+            color: #ff9a9e;
+            margin-bottom: 40px;
+            opacity: 0.8;
+        }
+
+        .open-btn {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 182, 193, 0.6);
+            border-radius: 50px;
+            padding: 18px 40px;
+            font-size: 1.4rem;
+            color: #6b5b6b;
+            cursor: pointer;
+            font-family: 'Brush Script MT', 'Segoe Script', cursive;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 182, 193, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .open-btn:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 6px 25px rgba(255, 182, 193, 0.5);
+            border-color: rgba(255, 182, 193, 0.9);
+        }
+
+        .open-btn:active { transform: scale(0.98); }
+
+        .gift-view {
+            display: none;
+            text-align: center;
+            width: 100%;
+            max-width: 900px;
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .gift-title {
+            font-size: 2.5rem;
+            color: #5a4a5a;
+            margin-bottom: 10px;
+            font-weight: 400;
+        }
+
+        .gift-subtitle {
+            font-family: 'Brush Script MT', 'Segoe Script', cursive;
+            font-size: 1.3rem;
+            color: #ff9a9e;
+            margin-bottom: 50px;
+        }
+
+        .gifts-row {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-bottom: 50px;
+        }
+
+        .gift-box {
+            width: 160px;
+            height: 160px;
+            background: linear-gradient(145deg, #fff0f3, #ffe4e8);
+            border-radius: 20px;
+            border: 3px solid #ffcdd6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 25px rgba(255, 182, 193, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gift-box:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 182, 193, 0.5);
+            border-color: #ff9a9e;
+        }
+
+        .gift-box.opened {
+            background: linear-gradient(145deg, #fff8f9, #fff0f3);
+            border-color: #ffdde3;
+            transform: scale(0.95);
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .gift-box .gift-icon {
+            font-size: 60px;
+            margin-bottom: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .gift-box:hover .gift-icon {
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        .gift-box .gift-label {
+            font-family: 'Brush Script MT', 'Segoe Script', cursive;
+            font-size: 1.1rem;
+            color: #8b6b7b;
+        }
+
+        .gift-box .gift-number {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 0.9rem;
+            color: #ff9a9e;
+            font-weight: bold;
+        }
+
+        .gift-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 100%;
+            background: linear-gradient(180deg, transparent 0%, rgba(255, 182, 193, 0.2) 50%, transparent 100%);
+            pointer-events: none;
+        }
+
+        .gift-box::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            width: 100%;
+            height: 40px;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 182, 193, 0.2) 50%, transparent 100%);
+            pointer-events: none;
+        }
+
+        .envelope-section {
+            margin-top: 30px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+            pointer-events: none;
+        }
+
+        .envelope-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .envelope-hint {
+            font-family: 'Brush Script MT', 'Segoe Script', cursive;
+            font-size: 1.2rem;
+            color: #ff9a9e;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .envelope {
+            width: 200px;
+            height: 130px;
+            background: linear-gradient(145deg, #fff8f0, #ffe8d6);
+            border-radius: 5px;
+            position: relative;
+            cursor: pointer;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+            border: 2px solid #ffd4a3;
+        }
+
+        .envelope:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 182, 193, 0.4);
+        }
+
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 65px;
+            background: linear-gradient(180deg, #ffe8d6 0%, #ffd4a3 100%);
+            clip-path: polygon(0 0, 50% 100%, 100% 0);
+            transform-origin: top;
+            transition: transform 0.6s ease;
+            z-index: 2;
+        }
+
+        .envelope.open::before {
+            transform: rotateX(180deg);
+            z-index: 0;
+        }
+
+        .envelope::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 65px;
+            background: linear-gradient(180deg, transparent 0%, rgba(255, 212, 163, 0.3) 100%);
+            clip-path: polygon(0 100%, 50% 0, 100% 100%);
+            z-index: 1;
+        }
+
+        .envelope-stamp {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 40px;
+            height: 50px;
+            background: linear-gradient(145deg, #ff9a9e, #fecfef);
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            z-index: 3;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .envelope-label {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Brush Script MT', 'Segoe Script', cursive;
+            font-size: 0.9rem;
+            color: #8b6b7b;
+            z-index: 3;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(5px);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .letter-modal {
+            background: #fffbf0;
+            background-image: 
+                radial-gradient(#ffe4e1 1px, transparent 1px),
+                radial-gradient(#ffe4e1 1px, transparent 1px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            border-radius: 15px;
+            padding: 50px 40px 40px;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            border: 1px solid #ffe4e1;
+            animation: slideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px) scale(0.9); opacity: 0; }
+            to { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.5rem;
+            color: #ff9a9e;
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: transform 0.2s ease;
+        }
+
+        .modal-close:hover { transform: scale(1.2); }
+
+        .modal-wax-seal {
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle at 30% 30%, #ff9a9e, #fecfef);
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin: 0 auto 20px;
+            border: 2px solid #fff;
+        }
+
+        .modal-content {
+            font-family: 'Brush Script MT', 'Segoe Script', cursive;
+            color: #5a4a5a;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            text-align: center;
+        }
+
+        .modal-content p { margin-bottom: 15px; }
+
+        .modal-content .signature {
+            color: #ff9a9e;
+            font-weight: bold;
+            margin-top: 25px;
+            font-size: 1.3rem;
+        }
+
+        .modal-corner-flower {
+            position: absolute;
+            font-size: 1.3rem;
+            opacity: 0.4;
+        }
+
+        .modal-corner-flower.top-left {
+            top: 15px;
+            left: 15px;
+            transform: rotate(45deg);
+        }
+
+        .modal-corner-flower.bottom-right {
+            bottom: 15px;
+            right: 15px;
+            transform: rotate(-45deg);
+        }
+
+        .main-letter-view {
+            display: none;
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+            animation: fadeIn 1s ease;
+        }
+
+        .main-letter-paper {
+            background: #fffbf0;
+            background-image: 
+                radial-gradient(#ffe4e1 1px, transparent 1px),
+                radial-gradient(#ffe4e1 1px, transparent 1px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            border-radius: 15px;
+            padding: 60px 50px 50px;
+            position: relative;
+            box-shadow: 0 15px 50px rgba(255, 143, 163, 0.3);
+            border: 2px solid #ffe4e1;
+            animation: glowPulse 3s infinite alternate;
+        }
+
+        @keyframes glowPulse {
+            from { box-shadow: 0 0 20px rgba(255, 182, 193, 0.4), 0 15px 50px rgba(255, 143, 163, 0.3); }
+            to { box-shadow: 0 0 50px rgba(255, 182, 193, 0.8), 0 0 30px rgba(255, 255, 255, 0.5), 0 15px 50px rgba(255, 143, 163, 0.4); }
+        }
+
+        .main-letter-title {
+            font-size: 2.2rem;
+            color: #5a4a5a;
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+
+        .main-letter-content {
+            font-family: 'Brush Script MT', 'Segoe Script', cursive;
+            color: #5a4a5a;
+            font-size: 1.3rem;
+            line-height: 1.9;
+            text-align: center;
+        }
+
+        .main-letter-content p { margin-bottom: 18px; }
+
+        .main-letter-content .signature {
+            color: #ff9a9e;
+            font-weight: bold;
+            margin-top: 30px;
+            font-size: 1.5rem;
+        }
+
+        .back-btn {
+            margin-top: 30px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 182, 193, 0.6);
+            border-radius: 50px;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            color: #6b5b6b;
+            cursor: pointer;
+            font-family: 'Brush Script MT', 'Segoe Script', cursive;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 182, 193, 0.3);
+        }
+
+        .back-btn:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 6px 25px rgba(255, 182, 193, 0.5);
+        }
+
+        .progress-bar {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ffdde3;
+            border: 2px solid #ffcdd6;
+            transition: all 0.3s ease;
+        }
+
+        .progress-dot.active {
+            background: #ff9a9e;
+            border-color: #ff9a9e;
+            transform: scale(1.2);
+        }
+
+        .progress-dot.completed {
+            background: #ff9a9e;
+            border-color: #ff9a9e;
+        }
+
+        #yt-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @media (max-width: 600px) {
+            .intro-title { font-size: 2.5rem; }
+            .intro-subtitle { font-size: 1.2rem; }
+            .open-btn { font-size: 1.1rem; padding: 15px 30px; }
+            .gift-title { font-size: 2rem; }
+            .gifts-row { gap: 20px; }
+            .gift-box { width: 130px; height: 130px; }
+            .gift-box .gift-icon { font-size: 45px; }
+            .letter-modal { padding: 40px 25px 30px; }
+            .modal-content { font-size: 1.05rem; }
+            .main-letter-paper { padding: 40px 25px 30px; }
+            .main-letter-content { font-size: 1.15rem; }
+            .envelope { width: 160px; height: 100px; }
+            .tap-text { font-size: 1.8rem; }
+            .tap-subtext { font-size: 1rem; }
+            .tap-icon { font-size: 3rem; }
+            .music-btn { width: 40px; height: 40px; font-size: 18px; }
+        }
+    </style>
+</head>
+<body>
+    <div id="daisy-container"></div>
+
+    <div id="yt-container">
+        <iframe id="yt-iframe" width="1" height="1" src="https://www.youtube.com/embed/lY5V4hSLWY8?enablejsapi=1&loop=1&playlist=lY5V4hSLWY8&controls=0&showinfo=0&rel=0&modestbranding=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+
+    <div class="tap-overlay" id="tap-overlay" onclick="startExperience()">
+        <div class="tap-icon">🎵</div>
+        <div class="tap-text">Tap anywhere to begin</div>
+        <div class="tap-subtext">with music & magic for Lhia</div>
+        <div class="play-hint">(music will start playing)</div>
+    </div>
+
+    <div class="music-controls">
+        <button class="music-btn" id="music-btn" onclick="toggleMusic()">🎵</button>
+        <div class="music-label" id="music-label">Play</div>
+    </div>
+
+    <div class="container">
+        <div id="intro-view" class="intro-view">
+            <h1 class="intro-title">For Lhia</h1>
+            <p class="intro-subtitle">I have something special for you...</p>
+            <button class="open-btn" onclick="openGiftBox()">Open My Gifts 💝</button>
+        </div>
+
+        <div id="gift-view" class="gift-view">
+            <div class="progress-bar" id="progress-bar">
+                <div class="progress-dot" id="dot-1"></div>
+                <div class="progress-dot" id="dot-2"></div>
+                <div class="progress-dot" id="dot-3"></div>
+            </div>
+            <h2 class="gift-title">My Gifts for You</h2>
+            <p class="gift-subtitle">Click each gift to reveal a message...</p>
+            <div class="gifts-row">
+                <div class="gift-box" id="gift-1" onclick="openGift(1)">
+                    <span class="gift-number">1</span>
+                    <div class="gift-icon">🧸</div>
+                    <div class="gift-label">Comfort</div>
+                </div>
+                <div class="gift-box" id="gift-2" onclick="openGift(2)">
+                    <span class="gift-number">2</span>
+                    <div class="gift-icon">🌹</div>
+                    <div class="gift-label">Love</div>
+                </div>
+                <div class="gift-box" id="gift-3" onclick="openGift(3)">
+                    <span class="gift-number">3</span>
+                    <div class="gift-icon">⭐</div>
+                    <div class="gift-label">Dreams</div>
+                </div>
+            </div>
+            <div class="envelope-section" id="envelope-section">
+                <p class="envelope-hint">✨ One last surprise awaits... ✨</p>
+                <div class="envelope" id="envelope" onclick="openEnvelope()">
+                    <div class="envelope-stamp">💌</div>
+                    <div class="envelope-label">To: Lhia</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="main-letter-view" class="main-letter-view">
+            <div class="main-letter-paper">
+                <div class="modal-wax-seal">🌼</div>
+                <div class="modal-corner-flower top-left">🌼</div>
+                <div class="modal-corner-flower bottom-right">🌼</div>
+                <h2 class="main-letter-title">My Dearest Lhia</h2>
+                <div class="main-letter-content">
+                    <p>Baby, I'm really sorry for what I did. I'm sorry for lying and not telling the truth, just for me to be accepted by you. Ang selfish ko sa part na'yon. I'm sorry for lying about my age. Pero now, you don't need to worry about anything anymore baby. I got guilty kaya nasabi ko na rin sa'yo yung totoo.</p>
+                    <p>I love you, with all my heart. I thought at first na lying can at least make me closer to you. Pero mali 'yon. Especially knowing na ayaw mo sa mga sinungaling. Kaya every night, I'm crying while praying kasi hindi ko alam kung paano ko sasabihin sa'yo.</p>
+                    <p>Especially after realizing kung gaano ako kaswerte sa'yo, kung gaano ka kasupportive sakin, kung paano ka mag care sakin. I'm really sorry for doing that, lhia ko. I hope na someday, you'll stop questioning my love for you because of what I did.</p>
+                    <p>I'm sorry for doing that, baby. I love you. I really do. I know na sobrang mali ng nagawa ko, so I'll wait for you to be okay, and wait for you to be okay. I'll always be here, lhia ko. I won't go anywhere without you. I love you and I'll always will, my love.</p>
+                    <p class="signature">Love, Hubby</p>
+                </div>
+            </div>
+            <button class="back-btn" onclick="goBack()">💝 Back to Gifts</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+        <div class="letter-modal" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal()">✕</button>
+            <div class="modal-wax-seal" id="modal-seal">🌼</div>
+            <div class="modal-corner-flower top-left">🌼</div>
+            <div class="modal-corner-flower bottom-right">🌼</div>
+            <div class="modal-content" id="modal-content"></div>
+        </div>
+    </div>
+
+    <script>
+        let isPlaying = false;
+        let hasStarted = false;
+        const ytIframe = document.getElementById('yt-iframe');
+        const musicBtn = document.getElementById('music-btn');
+        const musicLabel = document.getElementById('music-label');
+
+        function sendCommand(command) {
+            ytIframe.contentWindow.postMessage('{"event":"command","func":"' + command + '","args":""}', '*');
+        }
+
+        function startExperience() {
+            if (hasStarted) return;
+            hasStarted = true;
+            document.getElementById('tap-overlay').classList.add('hidden');
+            
+            setTimeout(() => {
+                sendCommand('playVideo');
+                isPlaying = true;
+                musicBtn.innerHTML = '🎶';
+                musicBtn.classList.remove('muted');
+                musicLabel.textContent = 'Playing';
+            }, 500);
+        }
+
+        function toggleMusic() {
+            if (!isPlaying) {
+                sendCommand('playVideo');
+                isPlaying = true;
+                musicBtn.innerHTML = '🎶';
+                musicBtn.classList.remove('muted');
+                musicLabel.textContent = 'Playing';
+            } else {
+                sendCommand('pauseVideo');
+                isPlaying = false;
+                musicBtn.innerHTML = '🎵';
+                musicBtn.classList.add('muted');
+                musicLabel.textContent = 'Paused';
+            }
+        }
+
+        const daisyContainer = document.getElementById('daisy-container');
+        for (let i = 0; i < 15; i++) {
+            const daisy = document.createElement('div');
+            daisy.classList.add('daisy');
+            daisy.innerHTML = '🌼';
+            daisy.style.left = Math.random() * 100 + 'vw';
+            daisy.style.animationDuration = (Math.random() * 5 + 5) + 's';
+            daisy.style.animationDelay = (Math.random() * 10) + 's';
+            daisy.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            daisyContainer.appendChild(daisy);
+        }
+
+        function createHearts(count = 20) {
+            for (let i = 0; i < count; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '❤️';
+                heart.style.left = (Math.random() * 100) + 'vw';
+                heart.style.top = (Math.random() * 50 + 50) + 'vh';
+                heart.style.animationDelay = (Math.random() * 2) + 's';
+                heart.style.fontSize = (Math.random() * 15 + 15) + 'px';
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 4000);
+            }
+        }
+
+        const giftMessages = {
+            1: {
+                seal: '🧸',
+                content: `
+                    <p>Hello, baby.</p>
+                    <p>Simula naman na mas naging close tayo, I always try to give you comfort. Everytime you need someone na pagsabihan ng nararamdaman mo, lagi lang akong andito. Everytime na may hindi magandang nangyayari sa'yo and need mo ng pagsasabihan, nandito ako lagi.</p>
+                    <p>Because, when you tell me something that bothers you, it makes me happy kasi I feel like you trust me, and it's comfortable na magsabi sakin. To be honest baby, hindi talaga ako ganon kagaling sa words. I'm not that good with words, pero binabawi ko lagi sa effort.</p>
+                    <p>Bare minimum yes, pero this is the best I can do because I'm so far from you. I can only do this kind of comfort, because we're not near from each other baby. Kaya nga hanggat maaari, I want to give you gifts, the food that you crave even though I'm far from you, kasi I want you to feel na kahit malayo ako sa'yo, is maramdaman mo pa rin yung presence ko, and maramdaman mo pa rin yung love and a very simple effort na ginagawa ko for you.</p>
+                    <p>Pero whatever happens, whatever you might feel everyday, whenever you're sad, happy, and naiinis sakin, is andito lang ako to comfort you. Because you're my baby, and will always be my baby.</p>
+                    <p class="signature">Love, Hubby</p>
+                `
+            },
+            2: {
+                seal: '🌹',
+                content: `
+                    <p>I love everything about you, lhia ko.</p>
+                    <p>Yung pagiging witty mo, cheerful, yung mga pangangasar mo sakin, even yung sudden mood swings mo. I cherish everything about you, lhia ko. Everytime na magkekwento ka sakin ng araw mo, sobrang saya ko. Nakakawala ng pagod.</p>
+                    <p>Even though na pagod ako galing sa labas, is ang bilis mo pa rin napapagaan yung loob ko. You never fail to support me in everything na gusto kong gawin. You always give me strength sa lahat ng bagay na gagawin ko.</p>
+                    <p>You're my treasure, baby. You always act na you really are my wife. I love you so much, lhia. Mahal na mahal kita. Kaya whenever we're not okay, I can't just ignore you, kasi mababaliw ako if hindi ka okay. Because, I love you so much, that I will do anything for you, my baby.</p>
+                    <p class="signature">Love, Hubby</p>
+                `
+            },
+            3: {
+                seal: '⭐',
+                content: `
+                    <p>I'm currently saving up for our dreams baby ko HAHAHAHAHAH.</p>
+                    <p>Kahit na sabihin nating malayo pa, is I'm already excited for our plans. I'm always ready when it comes to you, my love. Everything that you dreamt of. Like having a happy and a healthy family, mas gumaan ang buhay ng family mo, to be able to go sa Thailand, have a simple and stable life.</p>
+                    <p>I'll make sure na you're gonna achieve all of it, baby. I promise you na I will not make your life worse, and make it better more than you expect it to be. As long as we stay by each other, support each other, and most importantly, to let God guide our relationship.</p>
+                    <p>I'm not just wasting your time, baby. I'm here to be with you in everything. I'm here to be your husband someday. I don't date just to waste time, I want to date you and marry you someday. I want you, and only you. I hope na everything everything we're dreaming of, is maaabot natin someday together.</p>
+                    <p>Don't worry about anything anymore, baby. I'm here. You're not alone anymore.</p>
+                    <p class="signature">Love, Hubby</p>
+                `
+            }
+        };
+
+        let openedGifts = new Set();
+
+        function openGiftBox() {
+            const introView = document.getElementById('intro-view');
+            const giftView = document.getElementById('gift-view');
+            introView.style.opacity = '0';
+            setTimeout(() => {
+                introView.style.display = 'none';
+                giftView.style.display = 'block';
+            }, 700);
+        }
+
+        function openGift(giftNum) {
+            if (openedGifts.has(giftNum)) return;
+            openedGifts.add(giftNum);
+            document.getElementById('gift-' + giftNum).classList.add('opened');
+            document.getElementById('dot-' + giftNum).classList.add('completed');
+            const msg = giftMessages[giftNum];
+            document.getElementById('modal-seal').textContent = msg.seal;
+            document.getElementById('modal-content').innerHTML = msg.content;
+            document.getElementById('modal-overlay').classList.add('active');
+            createHearts(15);
+            if (openedGifts.size === 3) {
+                setTimeout(() => {
+                    document.getElementById('envelope-section').classList.add('visible');
+                    createHearts(30);
+                }, 500);
+            }
+        }
+
+        function closeModal(event) {
+            if (event && event.target !== document.getElementById('modal-overlay')) return;
+            document.getElementById('modal-overlay').classList.remove('active');
+        }
+
+        function openEnvelope() {
+            document.getElementById('envelope').classList.add('open');
+            setTimeout(() => {
+                document.getElementById('gift-view').style.display = 'none';
+                document.getElementById('main-letter-view').style.display = 'block';
+                createHearts(50);
+            }, 800);
+        }
+
+        function goBack() {
+            document.getElementById('main-letter-view').style.display = 'none';
+            document.getElementById('gift-view').style.display = 'block';
+            document.getElementById('envelope').classList.remove('open');
+        }
+    </script>
+</body>
+</html>
